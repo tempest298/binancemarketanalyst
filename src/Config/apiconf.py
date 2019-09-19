@@ -1,0 +1,4 @@
+API_KEY = "LUB6dWFM5MfQFLWAyKmAbYviRmdAyLMhpxBTqKZ6dV9MxTn3dzA0xVWLTeb21caj"
+API_SECRET = "c5tuBiHSX2FeThXBfKf1VnlLTFxj1LJdbbxcFyBc8v5ZXSfcbL3ukvu31qNDMASM"
+def getApiConfiguration():
+    return API_KEY,API_SECRET
