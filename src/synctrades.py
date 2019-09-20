@@ -3,6 +3,7 @@ from Config.apiconf import API_KEY,API_SECRET
 import datetime
 from binance.websockets import BinanceSocketManager
 import pandas as pd
+from cachedb import CacheDatabase
 class TradeHistory():
     def __init__(self, Pair):
         cli = Client(API_KEY, API_SECRET)
@@ -24,6 +25,7 @@ class TradeHistory():
             new_trades.append(trade)
         pdf = pd.DataFrame(new_trades).sort_values(by='id', ascending=True)
         self.Trades = pdf
+        self.Pair = Pair
         bm = BinanceSocketManager(cli)
         conn_key = bm.start_trade_socket(Pair, self.SyncTrades)
         bm.start()
@@ -58,5 +60,5 @@ class TradeHistory():
         del msg['q']
         temp_df = pd.DataFrame(msg,index=[0],columns=self.Trades.columns)
         self.Trades = self.Trades.append(temp_df,ignore_index=True).sort_values(by='id',ascending=True)
-        print(self.Trades)
-        print("Trade history updated.")
+        CacheDatabase.setObject()
+        print("{0} trade added to list \n {1}".format(self.Pair,temp_df))
